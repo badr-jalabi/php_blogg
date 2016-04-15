@@ -6,12 +6,9 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <?php
-        //Ta emot data från formuläret
-        $rubrik = $_POST['rubrik'];
-        $inlagg = $_POST['inlagg'];
-        //Databasuppgifter
-        $host = 'localhost';
+    <?php
+
+    $host = 'localhost';
         $user = 'jalabi_user';
         $pass = 'jalabi_pass';
         $database = 'jalabi_db';
@@ -23,21 +20,26 @@
         if ($conn->connect_error)
             die("Någonting blev fel" . $conn->connect_error);
 
-        //Vårt sql-kommando
-        $sql = "INSERT INTO bloggen
-        (rubrik, inlagg) VALUES
-        ('$rubrik', '$inlagg')";
+        $sql = "SELECT * FROM bloggen";
 
-        //Kör sql-kommandot
         $result = $conn->query($sql);
 
-        //Gick det bra eller inte?
         if (!$result)
-            die("Kunde inte spara inlägg: " . $conn->error);
-        else
-            echo "<h3>Ditt inlägg är registrerat</h3>";
+            die ("Kunde inte hämta inlägg" . $conn->error);
+        echo "<h2>Alla inlägg i bloggen</h2>";
 
-        //Stäng ned databasanslutningen
+        echo "<p>Hittat" . $result->num_rows . " inlägg</p>";
+
+        while ($row = $result->fetch_assoc()) {
+            echo "<article>";
+            echo "<h3>" . $row['$rubrik'] . "</h3>";
+            echo "<h4>" . $row['tidstampel'] . "</h4>";
+            echo "<p>" . $row['inlagg'] . "</p>";
+            echo "</article>";
+        }
+
+        //stäng databasanslutningen
+        $result->free();
         $conn->close();
         ?>
     </body>
