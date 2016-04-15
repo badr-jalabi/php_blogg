@@ -32,7 +32,7 @@
 
         while ($row = $result->fetch_assoc()) {
             echo "<article>";
-            echo "<h3>" . $row['$rubrik'] . "</h3>";
+            echo "<h3>" . $row['rubrik'] . "</h3>";
             echo "<h4>" . $row['tidstampel'] . "</h4>";
             echo "<p>" . $row['inlagg'] . "</p>";
             echo "</article>";
